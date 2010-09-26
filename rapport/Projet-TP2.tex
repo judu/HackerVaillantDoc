@@ -12,36 +12,36 @@
 \author{Julien \textsc{Durillon} \and Alexandre \textsc{Garnier}}
 \date{\today}
 \begin{document}
-	\maketitle
-	
-	\section*{Introduction}
-	
-	\section{Description du service}
-	
-	   Le service se propose de récupérer le numéro de carte bleue d'une personne
-	   à partir de son pseudo.
-	   
-	   Ce service est séparé en deux sous-services~:
-	   
-	   Le premier renvoie les informations sur une personne à partir de son
-	   pseudo, et le deuxième renvoie le numéro de carte bleue à partir de la
-	   personne (nom, prénom, date de naissance).
-	   
-	   
-	   \subsection{Actions possibles}
-	   
-	      Deux verbes sont proposés : GET et POST.
-	      
-	      Le premier permet de récupérer une information, et le deuxième d'en
-	      enregistrer sur le serveur.
-	      
-	      Chacun de ces verbes a plusieurs arguments.
-	      
-	      \subsubsection{GET}
-	      
+\maketitle
+
+\section*{Introduction}
+
+\section{Description du service}
+
+Le service se propose de récupérer le numéro de carte bleue d'une personne
+à partir de son pseudo.
+
+Ce service est séparé en deux sous-services~:
+
+Le premier renvoie les informations sur une personne à partir de son
+pseudo, et le deuxième renvoie le numéro de carte bleue à partir de la
+personne (nom, prénom, date de naissance).
+
+
+\subsection{Actions possibles}
+
+Deux verbes sont proposés : GET et POST.
+
+Le premier permet de récupérer une information, et le deuxième d'en
+enregistrer sur le serveur.
+
+Chacun de ces verbes a plusieurs arguments.
+
+\subsubsection{GET}
+
             Ce verbe permet de récupérer deux choses différentes : une personne
             (P), et un numéro de carte bleue (CBN). Cet argument est la valeur
-            du champ «~what~» de la requête.
+            du champ \og~what~\fg de la requête.
 
             On peut récupérer une personne à partir de son pseudo, et un numéro
             de carte bancaire, soit à partir d'une personne (P), soit à partir de
@@ -75,11 +75,35 @@ CBN:<numéro de CB>
 N:<pseudo>
 P:<personne>
          \end{verbatim}
-	
-	   \subsection{Format des personnes}
-	      Lors d'une requête POST, ou GET sur une personne, la personne est
-	      encodée au format Json, entre le client et le serveur Main.
-	
-	\section{}
-	
+
+\subsection{Format des personnes}
+Lors d'une requête POST, ou GET sur une personne, la personne est
+encodée au format Json, entre le client et le serveur Main.
+
+\section{Traitement des requêtes}
+Selon qu'il s'agisse d'une requête GET ou d'une requête POST, le serveur
+utilisera des protocoles différents pour communiquer avec les deux sous-serveurs
+ConnectingPeople et GetBankId.
+
+Dans les deux cas, le traitement de la requête passe cependant par un unique
+analyseur, RequestParser, qui se charge de dispatcher le traitement des requêtes
+en fonction de leur verbe.
+
+ \subsection{Requêtes GET}
+ Dans le cas d'une requête GET, c'est le protocole TCP qui est utilisé, puisque
+ le serveur attend dans ce cas une réponse à la requête.
+ 
+ Avant toute communication avec au moins un des deux sous-serveurs, un
+ traitement est effectué sur les champ \og~what~\fg et \og~from~\fg~, ce afin de déduire
+ des informations réclamées par le client quel(s) sous-serveur(s) sont réclamés.
+ 
+  \subsection{Requêtes POST}
+  En ce qui concerne la requête POST, puisqu'il suffit ici d'envoyer des
+  informations aux deux sous-serveurs sans se soucier d'un quelconque retour, le
+  protocole UDP nous est apparu tout approprié.
+  
+  Ici les deux sous-serveurs sont nécessairement mis à l'épreuve, puisqu'il
+  s'agit d'enregistrer toutes les informations concernant une personne dans les
+  bases de données de chaque serveur.
+
 \end{document}
