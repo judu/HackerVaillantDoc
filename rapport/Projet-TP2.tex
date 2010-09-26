@@ -1,0 +1,85 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[frenchb]{babel}
+\usepackage{xunicode}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+
+
+
+
+\renewcommand{\familydefault}{\sfdefault}
+\title{Alma'TimeTable}
+\author{Julien \textsc{Durillon} \and Alexandre \textsc{Garnier}}
+\date{\today}
+\begin{document}
+	\maketitle
+	
+	\section*{Introduction}
+	
+	\section{Description du service}
+	
+	   Le service se propose de récupérer le numéro de carte bleue d'une personne
+	   à partir de son pseudo.
+	   
+	   Ce service est séparé en deux sous-services~:
+	   
+	   Le premier renvoie les informations sur une personne à partir de son
+	   pseudo, et le deuxième renvoie le numéro de carte bleue à partir de la
+	   personne (nom, prénom, date de naissance).
+	   
+	   
+	   \subsection{Actions possibles}
+	   
+	      Deux verbes sont proposés : GET et POST.
+	      
+	      Le premier permet de récupérer une information, et le deuxième d'en
+	      enregistrer sur le serveur.
+	      
+	      Chacun de ces verbes a plusieurs arguments.
+	      
+	      \subsubsection{GET}
+	      
+            Ce verbe permet de récupérer deux choses différentes : une personne
+            (P), et un numéro de carte bleue (CBN). Cet argument est la valeur
+            du champ «~what~» de la requête.
+
+            On peut récupérer une personne à partir de son pseudo, et un numéro
+            de carte bancaire, soit à partir d'une personne (P), soit à partir de
+            son pseudo (N).
+            
+            \paragraph{Requête}
+            
+            Une requête GET ressemble à ceci~:
+            
+            \begin{verbatim}
+GET
+what:P|CBN
+from:P|N
+value:<donnée>
+            \end{verbatim}
+            
+            
+            
+      \subsubsection{POST}
+      
+         Ce verbe permet d'enregistrer une personne, son pseudo, et son numéro
+         de carte bleue.
+         
+         \paragraph{Requête}
+         
+         Une requête POST ressemble à ceci~:
+
+         \begin{verbatim}
+POST
+CBN:<numéro de CB>
+N:<pseudo>
+P:<personne>
+         \end{verbatim}
+	
+	   \subsection{Format des personnes}
+	      Lors d'une requête POST, ou GET sur une personne, la personne est
+	      encodée au format Json, entre le client et le serveur Main.
+	
+	\section{}
+	
+\end{document}
